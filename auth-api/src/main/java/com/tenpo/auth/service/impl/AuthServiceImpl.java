@@ -3,7 +3,7 @@ package com.tenpo.auth.service.impl;
 import com.tenpo.auth.config.JwtUtil;
 import com.tenpo.auth.dto.LoginRequest;
 import com.tenpo.auth.dto.TokenResponse;
-import com.tenpo.auth.model.User;
+import com.tenpo.auth.entity.User;
 import com.tenpo.auth.repository.UserRepository;
 import com.tenpo.auth.service.AuthService;
 import org.slf4j.Logger;

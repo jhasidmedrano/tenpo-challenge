@@ -1,4 +1,4 @@
-package com.tenpo.auth.model;
+package com.tenpo.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

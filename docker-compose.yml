@@ -15,6 +15,20 @@ services:
       - core_db_data:/var/lib/postgresql/data
     networks:
       - tenpo-net
+  
+  history-db:
+    image: postgres:15
+    container_name: history-db
+    environment:
+      POSTGRES_DB: historydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - history_db_data:/var/lib/postgresql/data
+    networks:
+      - tenpo-net
 
   redis:
     image: redis:7-alpine
@@ -32,6 +46,8 @@ services:
   #   environment:
   #     ZOOKEEPER_CLIENT_PORT: 2181
   #     ZOOKEEPER_TICK_TIME: 2000
+  #   networks:
+  #     - tenpo-net
 
   # kafka:
   #   image: confluentinc/cp-kafka:7.2.1
@@ -48,7 +64,8 @@ services:
   #     - zookeeper
   #   volumes:
   #     - kafka_data:/var/lib/kafka/data
-
+  #   networks:
+  #     - tenpo-net
 
   nginx:
     build: ./nginx
@@ -57,8 +74,7 @@ services:
       - "80:80"
     depends_on:
       - auth-api
-      # - calculation-api
-      # - percentage-api
+      # - operation-api
       # - history-api
     networks:
       - tenpo-net
@@ -79,31 +95,22 @@ services:
     networks:
       - tenpo-net
 
-  operation-api:
-    build: ./operation-api
-    container_name: operation-api
-    ports:
-      - "8081:8080"
-    depends_on:
-      - redis
-      - auth-api
-    environment:
-      # - SPRING_REDIS_HOST=redis
-      # - SPRING_REDIS_PORT=6379
-      # - PERCENTAGE_SERVICE_URL=http://percentage-api:8080/api/v1/percentage
-      # - AUTH_SERVICE_URL=http://auth-api:8080/api/v1/auth/validate
-      - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
-      - PERCENTAGE_SERVICE_BASE_URL=http://nginx
-      - PERCENTAGE_SERVICE_URI=/api/1/external/percentage
-    networks:
-      - tenpo-net
-
-
-  # percentage-api:
-  #   build: ./percentage-api
-  #   container_name: percentage-api
+  # operation-api:
+  #   build: ./operation-api
+  #   container_name: operation-api
   #   ports:
-  #     - "8082:8080"
+  #     - "8081:8080"
+  #   depends_on:
+  #     - redis
+  #     - auth-api
+  #   environment:
+  #     # - SPRING_REDIS_HOST=redis
+  #     # - SPRING_REDIS_PORT=6379
+  #     - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
+  #     - PERCENTAGE_SERVICE_BASE_URL=http://nginx
+  #     - PERCENTAGE_SERVICE_URI=/api/1/external/percentage
+  #   networks:
+  #     - tenpo-net
 
   # history-api:
   #   build: ./history-api
@@ -112,27 +119,21 @@ services:
   #     - "8083:8080"
   #   depends_on:
   #     - history-db
+  #     - kafka
   #   environment:
   #     - SPRING_DATASOURCE_URL=jdbc:postgresql://history-db:5432/historydb
   #     - SPRING_DATASOURCE_USERNAME=postgres
   #     - SPRING_DATASOURCE_PASSWORD=postgres
+  #     - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+  #     - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
+  #   networks:
+  #     - tenpo-net
 
-  # history-db:
-  #   image: postgres:15
-  #   container_name: history-db
-  #   environment:
-  #     POSTGRES_DB: historydb
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5433:5432"
-  #   volumes:
-  #     - history_db_data:/var/lib/postgresql/data
 
 volumes:
   core_db_data:
-  # kafka_data:
-  # history_db_data:
+  kafka_data:
+  history_db_data:
   redis_data:
 
 networks:
