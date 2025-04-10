@@ -3,19 +3,21 @@ server:
   address: 0.0.0.0
 
 spring:
-  datasource:
-    url: jdbc:postgresql://core-db:5432/history
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 
   kafka:
-    bootstrap-servers: kafka:9092
+#    enabled: ${KAFKA_ENABLED:true}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     consumer:
       group-id: history-consumer-group
       auto-offset-reset: earliest
+      enable-auto-commit: false
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml

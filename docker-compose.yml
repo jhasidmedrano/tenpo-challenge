@@ -40,32 +40,32 @@ services:
     networks:
       - tenpo-net
   
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:7.2.1
-  #   container_name: zookeeper
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-  #   networks:
-  #     - tenpo-net
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - tenpo-net
 
-  # kafka:
-  #   image: confluentinc/cp-kafka:7.2.1
-  #   container_name: kafka
-  #   ports:
-  #     - "9092:9092"
-  #   environment:
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #   depends_on:
-  #     - zookeeper
-  #   volumes:
-  #     - kafka_data:/var/lib/kafka/data
-  #   networks:
-  #     - tenpo-net
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - tenpo-net
 
   nginx:
     build: ./nginx
@@ -74,8 +74,8 @@ services:
       - "80:80"
     depends_on:
       - auth-api
-      # - operation-api
-      # - history-api
+      - operation-api
+      - history-api
     networks:
       - tenpo-net
 
@@ -103,6 +103,7 @@ services:
     depends_on:
       - redis
       - auth-api
+      # - kafka
     environment:
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
@@ -112,22 +113,23 @@ services:
     networks:
       - tenpo-net
 
-  # history-api:
-  #   build: ./history-api
-  #   container_name: history-api
-  #   ports:
-  #     - "8083:8080"
-  #   depends_on:
-  #     - history-db
-  #     - kafka
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://history-db:5432/historydb
-  #     - SPRING_DATASOURCE_USERNAME=postgres
-  #     - SPRING_DATASOURCE_PASSWORD=postgres
-  #     - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-  #     - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
-  #   networks:
-  #     - tenpo-net
+  history-api:
+    build: ./history-api
+    container_name: history-api
+    ports:
+      - "8083:8080"
+    depends_on:
+      - history-db
+      - kafka
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://history-db:5432/historydb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
+      - KAFKA_ENABLED=false
+    networks:
+      - tenpo-net
 
 
 volumes:

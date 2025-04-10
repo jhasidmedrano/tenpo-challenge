@@ -31,9 +31,8 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            String errorMsg = "Missing or invalid Authorization header";
-            request.setAttribute("auth_error_message", errorMsg);
-            throw new InsufficientAuthenticationException(errorMsg);
+            filterChain.doFilter(request, response);
+            return;
         }
 
         String token = authHeader.substring(7);
