@@ -95,22 +95,22 @@ services:
     networks:
       - tenpo-net
 
-  # operation-api:
-  #   build: ./operation-api
-  #   container_name: operation-api
-  #   ports:
-  #     - "8081:8080"
-  #   depends_on:
-  #     - redis
-  #     - auth-api
-  #   environment:
-  #     # - SPRING_REDIS_HOST=redis
-  #     # - SPRING_REDIS_PORT=6379
-  #     - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
-  #     - PERCENTAGE_SERVICE_BASE_URL=http://nginx
-  #     - PERCENTAGE_SERVICE_URI=/api/1/external/percentage
-  #   networks:
-  #     - tenpo-net
+  operation-api:
+    build: ./operation-api
+    container_name: operation-api
+    ports:
+      - "8081:8080"
+    depends_on:
+      - redis
+      - auth-api
+    environment:
+      # - SPRING_REDIS_HOST=redis
+      # - SPRING_REDIS_PORT=6379
+      - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
+      - PERCENTAGE_SERVICE_BASE_URL=http://nginx
+      - PERCENTAGE_SERVICE_URI=/api/1/external/percentage
+    networks:
+      - tenpo-net
 
   # history-api:
   #   build: ./history-api

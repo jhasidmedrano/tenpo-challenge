@@ -34,6 +34,7 @@ public class PercentageClient {
         backoff = @Backoff(delay = 2000, multiplier = 2)
     )
     public BigDecimal getPercentage() {
+        logger.debug("Getting percentage from external service: {}", percentageServiceUri);
         try {
             PercentageResponse response = webClient
                     .get()
