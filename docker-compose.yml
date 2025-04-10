@@ -104,8 +104,8 @@ services:
       - redis
       - auth-api
     environment:
-      # - SPRING_REDIS_HOST=redis
-      # - SPRING_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
       - JWT_SECRET=23Nsk7c9Hq3J4LpMbsZ9q1QpLm0Kd34s
       - PERCENTAGE_SERVICE_BASE_URL=http://nginx
       - PERCENTAGE_SERVICE_URI=/api/1/external/percentage
