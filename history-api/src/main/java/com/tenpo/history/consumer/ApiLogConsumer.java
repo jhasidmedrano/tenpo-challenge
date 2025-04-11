@@ -7,6 +7,8 @@ import com.tenpo.history.repository.ApiCallLogRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.RetryableTopic;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ public class ApiLogConsumer {
         this.repository = repository;
     }
 
+    @RetryableTopic(attempts = "3", backoff = @Backoff(delay = 2000))
     @KafkaListener(topics = "api.logs", groupId = "history-consumer-group")
     public void listen(ConsumerRecord<String, String> record) {
         try {
@@ -38,7 +41,7 @@ public class ApiLogConsumer {
 
             repository.save(log);
         } catch (Exception e) {
-            LoggerFactory.getLogger(ApiLogConsumer.class).error("Error consuming log from Kafka", e);
+            throw new RuntimeException("Error processing message", e);
         }
     }
 }

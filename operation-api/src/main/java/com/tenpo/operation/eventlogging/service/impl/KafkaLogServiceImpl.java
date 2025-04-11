@@ -1,8 +1,8 @@
-package com.tenpo.auth.eventlogging.service.impl;
+package com.tenpo.operation.eventlogging.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tenpo.auth.eventlogging.dto.ApiCallLogEvent;
-import com.tenpo.auth.eventlogging.service.KafkaLogService;
+import com.tenpo.operation.eventlogging.dto.ApiCallLogEvent;
+import com.tenpo.operation.eventlogging.service.KafkaLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

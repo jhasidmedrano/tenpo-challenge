@@ -1,4 +1,6 @@
-package com.tenpo.auth.eventlogging.service;
+package com.tenpo.operation.eventlogging.service;
+
+import com.tenpo.operation.eventlogging.dto.ApiCallLogEvent;
 
 public interface KafkaLogService {
 

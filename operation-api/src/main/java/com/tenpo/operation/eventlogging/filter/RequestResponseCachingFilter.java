@@ -1,10 +1,15 @@
-package com.tenpo.auth.eventlogging.filter;
+package com.tenpo.operation.eventlogging.filter;
 
-import com.tenpo.auth.eventlogging.service.KafkaLogService;
+import com.tenpo.operation.eventlogging.service.KafkaLogService;
+import com.tenpo.operation.security.CustomAuthenticationEntryPoint;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;

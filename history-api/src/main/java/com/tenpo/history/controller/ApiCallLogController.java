@@ -1,5 +1,7 @@
 package com.tenpo.history.controller;
 
+import com.tenpo.history.dto.ApiCallLogPageResponse;
+import com.tenpo.history.dto.PaginationInfo;
 import com.tenpo.history.entity.ApiCallLog;
 import com.tenpo.history.service.HistoryService;
 import org.springframework.data.domain.Page;
@@ -27,13 +29,26 @@ public class ApiCallLogController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public Page<ApiCallLog> getLogs(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+    @GetMapping("/logs")
+    public ResponseEntity<ApiCallLogPageResponse> getLogs(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp").descending());
-        return historyService.getAllLogs(pageable);
+        Page<ApiCallLog> logPage = historyService.getAllLogs(pageable);
+
+        PaginationInfo pagination = new PaginationInfo(
+                logPage.getNumber(),
+                logPage.getSize(),
+                logPage.getTotalPages(),
+                logPage.getTotalElements(),
+                logPage.isFirst(),
+                logPage.isLast()
+        );
+
+        ApiCallLogPageResponse response = new ApiCallLogPageResponse(logPage.getContent(), pagination);
+
+        return ResponseEntity.ok(response);
     }
 }
 
