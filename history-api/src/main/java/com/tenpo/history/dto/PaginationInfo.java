@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor // si usás frameworks como Jackson
+@NoArgsConstructor
 @Data
 public class PaginationInfo {
     private int currentPage;
