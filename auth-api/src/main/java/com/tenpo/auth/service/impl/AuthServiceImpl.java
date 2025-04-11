@@ -49,8 +49,4 @@ public class AuthServiceImpl implements AuthService {
         return jwtUtil.validateToken(token);
     }
 
-    public static void main(String[] args) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("tenpologin"));
-    }
 }
