@@ -6,6 +6,7 @@ import com.tenpo.operation.eventlogging.service.KafkaLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ public class KafkaLogServiceImpl implements KafkaLogService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
-    private static final String TOPIC = "api.logs";
+
+    @Value("${spring.kafka.topic.name}")
+    private String topic;
+
     private static final Logger logger = LoggerFactory.getLogger(KafkaLogServiceImpl.class);
 
     @Override
@@ -39,7 +43,7 @@ public class KafkaLogServiceImpl implements KafkaLogService {
     private void send(ApiCallLogEvent event) {
         try {
             String json = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send(TOPIC, json);
+            kafkaTemplate.send(topic, json);
         } catch (Exception e) {
             logger.error("Failed to send log to Kafka", e);
         }
