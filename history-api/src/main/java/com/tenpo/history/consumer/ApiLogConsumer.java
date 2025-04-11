@@ -5,7 +5,6 @@ import com.tenpo.history.dto.ApiCallLogEvent;
 import com.tenpo.history.entity.ApiCallLog;
 import com.tenpo.history.repository.ApiCallLogRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.retry.annotation.Backoff;

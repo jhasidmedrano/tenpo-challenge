@@ -27,7 +27,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/1/history/health").permitAll()
                         .anyRequest().authenticated()
-//                                .anyRequest().permitAll()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
                 .addFilterBefore(new TokenAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)

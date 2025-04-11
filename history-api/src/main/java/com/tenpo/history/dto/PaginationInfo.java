@@ -2,9 +2,11 @@ package com.tenpo.history.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
+@NoArgsConstructor // si usás frameworks como Jackson
+@Data
 public class PaginationInfo {
     private int currentPage;
     private int pageSize;
