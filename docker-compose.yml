@@ -68,7 +68,8 @@ services:
       - tenpo-net
 
   nginx:
-    build: ./nginx
+    # build: ./nginx
+    image: jhasidmedrano/nginx:1.0.0
     container_name: nginx
     ports:
       - "80:80"
@@ -80,7 +81,8 @@ services:
       - tenpo-net
 
   auth-api:
-    build: ./auth-api
+    # build: ./auth-api
+    image: jhasidmedrano/auth-api:1.0.0
     container_name: auth-api
     ports:
       - "8084:8080"
@@ -97,7 +99,8 @@ services:
       - tenpo-net
 
   operation-api:
-    build: ./operation-api
+    # build: ./operation-api
+    image: jhasidmedrano/operation-api:1.0.0
     container_name: operation-api
     ports:
       - "8081:8080"
@@ -116,7 +119,8 @@ services:
       - tenpo-net
 
   history-api:
-    build: ./history-api
+    # build: ./history-api
+    image: jhasidmedrano/history-api:1.0.0
     container_name: history-api
     ports:
       - "8083:8080"
