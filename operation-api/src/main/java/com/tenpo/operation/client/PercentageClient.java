@@ -1,13 +1,11 @@
 package com.tenpo.operation.client;
 
 import com.tenpo.operation.client.dto.PercentageResponse;
-import com.tenpo.operation.controller.OperationController;
 import com.tenpo.operation.exception.PercentageServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.CircuitBreaker;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -51,7 +49,7 @@ public class PercentageClient {
     }
 
     @Recover
-    public BigDecimal recover(Exception e) {
+    public void recover(Exception e) {
         logger.error("All retry attempts to fetch percentage failed: {}", e.getMessage());
         throw new PercentageServiceException("External percentage API failed after retries");
     }

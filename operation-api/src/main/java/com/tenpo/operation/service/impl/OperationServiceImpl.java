@@ -54,6 +54,4 @@ public class OperationServiceImpl implements OperationService {
         return sum.multiply(multiplier).setScale(2, RoundingMode.HALF_UP);
     }
 
-
-
 }
