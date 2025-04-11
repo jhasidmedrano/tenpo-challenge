@@ -1,0 +1,42 @@
+package com.tenpo.history.config;
+
+import com.tenpo.history.dto.ErrorResponse;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class GlobalExceptionHandlerTest {
+
+    private final GlobalExceptionHandler handler = new GlobalExceptionHandler();
+
+    @Test
+    void handleRuntimeException_shouldReturnBadRequest() {
+        RuntimeException ex = new RuntimeException("Unexpected error");
+
+        ResponseEntity<ErrorResponse> response = handler.handleRuntimeException(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Bad Request", response.getBody().getError());
+        assertEquals("Unexpected error", response.getBody().getMessage());
+    }
+
+    @Test
+    void handleValidationException_shouldReturnValidationError() {
+        BeanPropertyBindingResult bindingResult =
+                new BeanPropertyBindingResult(new Object(), "testObject");
+        bindingResult.addError(new FieldError("testObject", "field", "Field is required"));
+
+        MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, bindingResult);
+
+        ResponseEntity<ErrorResponse> response = handler.handleValidationException(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Validation Error", response.getBody().getError());
+        assertEquals("Field is required", response.getBody().getMessage());
+    }
+}

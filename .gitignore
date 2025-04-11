@@ -1,0 +1,57 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Compiled files
+**/target/
+**/bin/
+**/out/
+
+# Maven
+.mvn/
+!**/src/main/**/.gitkeep
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test reports
+test-output/
+surefire-reports/
+
+# Configuration files
+*.env
+*.local
+.env.*
+
+# Docker
+docker-compose.override.yml
+**/docker/volumes/
+**/docker/tmp/
+**/docker/logs/
+
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Other
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
