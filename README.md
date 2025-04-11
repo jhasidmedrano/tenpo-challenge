@@ -53,17 +53,95 @@ Below is a visual representation of the architecture and the interaction between
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Running the Project
 
-### Prerequisites
+This project uses **Docker** and **Docker Compose** to orchestrate all services and dependencies. Follow these steps to run it on a new environment without any prior setup.
 
-- Docker  
-- Docker Compose
+### 1. ✅ Install Prerequisites
 
-### Running the project
+Make sure you have the following installed:
+
+- [Docker Engine](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/) (included in Docker Desktop)
+
+Verify the installation:
+
+```bash
+docker -v
+docker compose version
+```
+
+### 2. 📁 Clone the Repository
+
+```bash
+git clone https://github.com/jhasidmedrano/tenpo-challenge.git
+cd tenpo-challenge
+```
+
+> Replace the URL with your actual repository if necessary.
+
+### 3. 🚀 Start the Stack
+
+Use Docker Compose to build and run all services:
 
 ```bash
 docker compose up --build
+```
 
+This will:
 
-<COMPLETAR>
+- Build the microservices (`auth-api`, `operation-api`, `history-api`)
+- Start PostgreSQL, Redis, Kafka, Zookeeper, and NGINX
+- Create an internal Docker network (`tenpo-net`)
+
+### 4. 🧪 Example Requests
+
+- `POST /api/1/auth/login` – Generate JWT token
+- `POST /api/1/operation/sum` – Perform sum with percentage
+- `GET /api/1/history/logs` – Retrieve call history
+
+User for tests:
+- username: tenpologin
+- password: tenpologin
+
+### 5. ✅ Health Check Endpoints
+
+After the services are up and running, you can verify that each microservice is working properly by calling their **health check endpoints**:
+
+- **Auth API**:  
+  `GET http://localhost/api/1/auth/health`
+
+- **Operation API**:  
+  `GET http://localhost/api/1/operation/health`
+
+- **History API**:  
+  `GET http://localhost/api/1/history/health`
+
+These endpoints return `200 OK` when the service is healthy.
+
+### 🧼 Shut Down the Stack
+
+```bash
+docker compose down
+```
+
+### 📬 Postman Collection
+
+To simplify testing the APIs, a **Postman collection** is provided:
+
+📁 `tenpo-challenge.postman_collection.json`
+
+This collection includes preconfigured requests for:
+
+- Authentication (`/api/1/auth/login`)
+- Token validation (`/api/1/auth/validate`)
+- Arithmetic operation (`/api/1/operation/sum`)
+- History retrieval (`/api/1/history/logs`)
+- Health check endpoints
+
+💡 **Tip:** Make sure the services are running with `docker compose up` before executing the requests.
+
+You can import the collection into Postman via:
+
+- **File → Import → Upload Files**
+- Or drag & drop the JSON file into Postman.
