@@ -191,6 +191,31 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost/api/1/operation/actuator/circuitbreakers",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/1/operation/actuator/circuitbreakers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"1",
+						"operation",
+						"actuator",
+						"circuitbreakers"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
