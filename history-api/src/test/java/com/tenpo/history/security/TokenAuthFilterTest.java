@@ -34,7 +34,7 @@ class TokenAuthFilterTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        SecurityContextHolder.clearContext(); // limpio antes de cada test
+        SecurityContextHolder.clearContext();
     }
 
     @Test
@@ -46,7 +46,7 @@ class TokenAuthFilterTest {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         assertNotNull(auth);
-        assertTrue(auth.isAuthenticated() || auth.getAuthorities().isEmpty()); // no authorities en este caso
+        assertTrue(auth.isAuthenticated() || auth.getAuthorities().isEmpty());
 
         verify(filterChain).doFilter(request, response);
         verify(jwtUtil).validateToken("valid.jwt.token");
