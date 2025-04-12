@@ -68,7 +68,7 @@ services:
       - tenpo-net
 
   nginx:
-    image: jhasidmedrano/nginx:1.0.0    
+    image: jhasidmedrano/nginx:1.1.0
     container_name: nginx
     ports:
       - "80:80"
@@ -97,7 +97,7 @@ services:
       - tenpo-net
 
   operation-api:
-    image: jhasidmedrano/operation-api:1.0.0
+    image: jhasidmedrano/operation-api:1.1.0
     container_name: operation-api
     ports:
       - "8081:8080"
