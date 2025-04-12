@@ -145,3 +145,29 @@ You can import the collection into Postman via:
 
 - **File → Import → Upload Files**
 - Or drag & drop the JSON file into Postman.
+
+
+### 🧪 Testing Error Scenarios when external api failed with NGINX
+
+To simulate a failure of the external percentage service, you can use a custom NGINX image:
+
+**Image:** `jhasidmedrano/nginx:1.1.0-error`
+
+This version returns a **500 Internal Server Error** for the mock endpoint:
+
+
+This is useful to verify the **circuit breaker**, **retry**, and **fallback** mechanisms implemented in `operation-api`.
+
+#### 🔧 How to Use in `docker-compose.yml`
+
+Replace the NGINX service definition with the following:
+
+```yaml
+  nginx:
+    image: jhasidmedrano/nginx:1.1.0-error
+```
+
+```bash
+docker compose down
+docker compose up -d
+```
